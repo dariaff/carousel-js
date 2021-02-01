@@ -6,9 +6,22 @@ const templateCirculo = document.querySelector("#template-circulo").content.firs
 const circulos  = document.querySelector("#circulos");
 const imagenes =["img/jonathan-borba-dvN0SGmFM3Y-unsplash.jpg","img/liam-shaw-Zj-NP3Md4uU-unsplash.jpg", "img/mariola-grobelska-anLf6_6gSMk-unsplash.jpg"];
 let pagina = 1;
+const botonParar = document.querySelector("#parar");
+const botonAutoplay = document.querySelector("#autoplay");
+let intervalo = null;
+const tiempoIntervaloSeg = 1;
 
 //funcioines
-
+function activarAutoplay (){
+   if(intervalo ===null ) {
+       intervalo = setInterval(function (){
+        avanzarFoto();
+    }, tiempoIntervaloSeg*1000);
+}
+function desactivarAutoplay(){
+   clearInterval(intervalo)};
+   intervalo = null;
+}
 function cambiarPagina(nuevaPagina){
     pagina = nuevaPagina;
     render();
@@ -36,6 +49,8 @@ function render (){
     objetoImg.setAttribute("src", imagenes[pagina - 1])
     //circulitos
     circulos.textContent = "";
+
+    //creamos todos los circulitos
     imagenes.forEach(function (imagen,indice){
         const nuevoCirculo = templateCirculo.cloneNode(true);
         nuevoCirculo.addEventListener("click",
@@ -56,5 +71,7 @@ function render (){
 
 botonAvanzar.addEventListener("click", avanzarFoto);
 botonRetrodecer.addEventListener("click", retrodecerFoto);
+botonAutoplay.addEventListener("click",activarAutoplay);
+botonParar.addEventListener("click", desactivarAutoplay);
 //inicio
 render();
